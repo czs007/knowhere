@@ -17,12 +17,16 @@
 if (MACOS)
     set(UTILS_SRC
             distances_simd.cpp
+	    Bitset.cpp
+	    BitsetView.cpp
             )
     add_library(knowhere_utils STATIC
             ${UTILS_SRC}
             )
 else ()
     set(UTILS_SRC
+	    BitsetView.cpp
+	    Bitset.cpp
             distances_simd.cpp
             FaissHookFvec.cpp
             )
@@ -49,7 +53,6 @@ else ()
     target_compile_options(utils_sse PUBLIC "-msse4.2")
     target_compile_options(utils_avx PUBLIC "-mf16c;-mavx2")
     target_compile_options(utils_avx512 PUBLIC "-mf16c;-mavx512f;-mavx512dq;-mavx512bw")
-
     add_library(knowhere_utils STATIC
             ${UTILS_SRC}
             $<TARGET_OBJECTS:utils_sse>

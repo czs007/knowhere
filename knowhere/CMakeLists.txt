@@ -128,7 +128,6 @@ if ( LINUX )
     set(depend_libs
             faiss
             pthread
-            knowhere_utils
             )
 
     if (KNOWHERE_SUPPORT_SPTAG)
@@ -179,10 +178,12 @@ if ( LINUX )
                 ${vector_index_srcs}
                 ${vector_offset_index_srcs}
         )
-        target_include_directories(knowhere PUBLIC ${KNOWHERE_SOURCE_DIR}/knowere)
+        target_include_directories(knowhere PUBLIC ${KNOWHERE_SOURCE_DIR}/knowhere)
     endif ()
-
     target_link_libraries(knowhere ${depend_libs})
+    target_link_libraries(knowhere -Wl,--whole-archive knowhere_utils -Wl,--no-whole-archive)
+    #target_link_libraries(knowhere knowhere_utils)
+
     set(KNOWHERE_INCLUDE_DIRS
         ${KNOWHERE_SOURCE_DIR}
         ${KNOWHERE_SOURCE_DIR}/thirdparty
@@ -212,7 +213,10 @@ if (MACOS)
         )
     endif ()
 
-    target_link_libraries(knowhere pthread knowhere_utils)
+    target_link_libraries(knowhere pthread)
+    target_link_libraries(knowhere -Wl,--whole-archive knowhere_utils -Wl,--no-whole-archive)
+    #target_link_libraries(knowhere knowhere_utils)
+
     set(KNOWHERE_INCLUDE_DIRS ${KNOWHERE_SOURCE_DIR})
 endif()
 
