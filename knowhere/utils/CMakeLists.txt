@@ -25,6 +25,7 @@ else ()
     set(UTILS_SRC
             distances_simd.cpp
             FaissHookFvec.cpp
+	    BitsetView.cpp
             )
     set(UTILS_SSE_SRC
             distances_simd_sse.cpp
