@@ -18,6 +18,7 @@ if (MACOS)
     set(UTILS_SRC
             distances_simd.cpp
 	    Bitset.cpp
+	    Bitset2.cpp
 	    BitsetView.cpp
             )
     add_library(knowhere_utils STATIC
@@ -27,6 +28,7 @@ else ()
     set(UTILS_SRC
 	    BitsetView.cpp
 	    Bitset.cpp
+	    Bitset2.cpp
             distances_simd.cpp
             FaissHookFvec.cpp
             )

@@ -67,7 +67,7 @@ ConcurrentBitset::operator&=(const BitsetView& view) {
 
 std::shared_ptr<ConcurrentBitset>
 ConcurrentBitset::operator&(const ConcurrentBitset& bitset) const {
-auto result_bitset = std::make_shared<ConcurrentBitset>(bitset.count());
+auto result_bitset = std::make_shared<ConcurrentBitset>(bitset.size());
 
 auto result_8 = result_bitset->mutable_data();
 auto result_64 = reinterpret_cast<uint64_t*>(result_8);
@@ -97,7 +97,7 @@ return result_bitset;
 
 std::shared_ptr<ConcurrentBitset>
 ConcurrentBitset::operator&(const BitsetView& view) const {
-auto result_bitset = std::make_shared<ConcurrentBitset>(view.count());
+auto result_bitset = std::make_shared<ConcurrentBitset>(view.size());
 
 auto result_8 = result_bitset->mutable_data();
 auto result_64 = reinterpret_cast<uint64_t*>(result_8);
@@ -177,7 +177,7 @@ return *this;
 
 std::shared_ptr<ConcurrentBitset>
 ConcurrentBitset::operator|(const ConcurrentBitset& bitset) const {
-auto result_bitset = std::make_shared<ConcurrentBitset>(bitset.count());
+auto result_bitset = std::make_shared<ConcurrentBitset>(bitset.size());
 std::cout<<"1111111"<<std::endl;
 
 auto result_8 = result_bitset->mutable_data();
@@ -213,7 +213,7 @@ return result_bitset;
 
 std::shared_ptr<ConcurrentBitset>
 ConcurrentBitset::operator|(const BitsetView& view) const {
-auto result_bitset = std::make_shared<ConcurrentBitset>(view.count());
+auto result_bitset = std::make_shared<ConcurrentBitset>(view.size());
 
 auto result_8 = result_bitset->mutable_data();
 auto result_64 = reinterpret_cast<uint64_t*>(result_8);

@@ -76,24 +76,20 @@ class ConcurrentBitset {
 
     inline bool
     test(id_type_t id) const {
-        unsigned char mask = (unsigned char)(0x01) << (id & 0x07);
-        return (bitset_[id >> 3] & mask);
+        uint8_t mask = (uint8_t)(0x01) << (id & 0x07);
+        return bitset_[id >> 3] & mask;
     }
 
     inline void
     set(id_type_t id) {
-	uint8_t mask = ~uint8_t(0);
-//        unsigned char mask = (unsigned char)(0x01) << (id & 0x07);
-        //bitset_[id >> 3].fetch_or(mask);
-        bitset_[id >> 3] = mask;
+        uint8_t mask = (uint8_t)(0x01) << (id & 0x07);
+        bitset_[id >> 3] |= mask;
     }
 
     inline void
     clear(id_type_t id) {
-//	uint8_t mask = ~uint8_t(0);
-        //unsigned char mask = (unsigned char)(0x01) << (id & 0x07);
-//        bitset_[id >> 3].fetch_and(~mask);
-        bitset_[id >> 3] = 0;
+        uint8_t mask = (uint8_t)(0x01) << (id & 0x07);
+        bitset_[id >> 3] &= ~mask;
     }
 
     size_t
