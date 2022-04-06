@@ -178,9 +178,12 @@ return *this;
 std::shared_ptr<ConcurrentBitset>
 ConcurrentBitset::operator|(const ConcurrentBitset& bitset) const {
 auto result_bitset = std::make_shared<ConcurrentBitset>(bitset.count());
+std::cout<<"1111111"<<std::endl;
 
 auto result_8 = result_bitset->mutable_data();
+std::cout<<"22222"<<std::endl;
 auto result_64 = reinterpret_cast<uint64_t*>(result_8);
+std::cout<<"333333"<<std::endl;
 
 auto u8_1 = data();
 auto u8_2 = bitset.data();
@@ -190,10 +193,12 @@ auto u64_2 = reinterpret_cast<const uint64_t*>(u8_2);
 size_t n8 = bitset_.size();
 size_t n64 = n8 / 8;
 
+std::cout<<"44444"<<std::endl;
 for (size_t i = 0; i < n64; i++) {
     result_64[i] = u64_1[i] | u64_2[i];
 }
 
+std::cout<<"555555"<<std::endl;
 size_t remain = n8 % 8;
 u8_1 += n64 * 8;
 u8_2 += n64 * 8;
@@ -202,6 +207,7 @@ for (size_t i = 0; i < remain; i++) {
     result_8[i] = u8_1[i] | u8_2[i];
 }
 
+std::cout<<"6666666"<<std::endl;
 return result_bitset;
 }
 

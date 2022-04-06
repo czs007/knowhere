@@ -87,11 +87,11 @@ BitsetView::operator std::string() const {
     const char zero = '0';
     const size_t len = size();
     std::string s;
-    s.assign (len, zero);
+    s.assign(len, zero);
 
     for (size_t i = 0; i < len; ++i) {
         if (test(i))
-            s.assign(len - 1 - i, one);
+		s[len - 1 -i] = one;
     }
     return s;
 }
