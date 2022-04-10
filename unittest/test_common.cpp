@@ -44,16 +44,9 @@ TEST(COMMON_TEST, time_recoder) {
 }
 
 TEST(COMMON_TEST, BitsetView) {
-    using faiss::BitsetView;
-    using faiss::ConcurrentBitset;
-    int N = 1000 * 3;
-    auto con_bitset = std::make_shared<ConcurrentBitset>(N);
-    for (int i = 0; i < N; ++i) {
-        if (i % 3 == 0) {
-            con_bitset->set(i);
-        } else {
-            con_bitset->clear(i);
-        }
-    }
-    ASSERT_EQ(con_bitset->count_1(), N / 3);
+    int N = 1000;
+    std::shared_ptr<uint8_t[]> data(new uint8_t[N]);
+    memset(data.get(), 0x33, N);
+    auto con_bitset = std::make_shared<faiss::BitsetView>(data.get(), N);
+    ASSERT_EQ(con_bitset->count_1(), N / 2);
 }
