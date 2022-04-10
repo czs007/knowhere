@@ -387,7 +387,7 @@ void GpuIndexIVFPQ::searchImpl_(
                 config_.device,
                 const_cast<uint8_t*>(bitset.data()),
                 stream,
-                {(int)bitset.num_bytes()});
+                {(int)bitset.byte_size()});
         index_->query(
                 queries,
                 bitsetDevice,

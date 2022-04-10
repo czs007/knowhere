@@ -44,9 +44,14 @@ TEST(COMMON_TEST, time_recoder) {
 }
 
 TEST(COMMON_TEST, BitsetView) {
-    int N = 1000;
-    std::shared_ptr<uint8_t[]> data(new uint8_t[N]);
-    memset(data.get(), 0x33, N);
-    auto con_bitset = std::make_shared<faiss::BitsetView>(data.get(), N);
-    ASSERT_EQ(con_bitset->count(), N / 2);
+    int N = 120;
+    std::shared_ptr<uint8_t[]> data(new uint8_t[N/8]);
+    auto bitset = faiss::BitsetView(data.get(), N);
+
+    std::vector<uint8_t> init_array = {0x0, 0x1, 0x3, 0x7, 0xf, 0xf1, 0xf3, 0xf7, 0xff};
+    for (size_t i = 0; i < init_array.size(); i++) {
+        memset(data.get(), init_array[i], N / 8);
+        ASSERT_EQ(bitset.count(), N / 8 * i);
+        std::cout << bitset.to_string() << std::endl;
+    }
 }
