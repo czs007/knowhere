@@ -19,6 +19,14 @@
 
 namespace faiss {
 
+inline void set_bit(uint8_t* data, size_t idx) {
+   data[idx / 8] |= 0x1 << (idx % 8);
+}
+
+inline void clear_bit(uint8_t* data, size_t idx) {
+    data[idx / 8] &= ~(0x1 << (idx % 8));
+}
+
 class ConcurrentBitset {
  public:
     using id_type_t = int64_t;
@@ -86,19 +94,6 @@ class BitsetView {
     BitsetView(const uint8_t* blocks, int64_t num_bits) : blocks_(blocks), num_bits_(num_bits) {
     }
 
-    explicit BitsetView(const ConcurrentBitset& bitset) : num_bits_(bitset.count()) {
-        // memcpy(block_data_.data(), bitset.data(), bitset.size());
-        // blocks_ = block_data_.data();
-        blocks_ = new uint8_t[bitset.size()];
-        memcpy(mutable_data(), bitset.data(), bitset.size());
-    }
-
-    BitsetView(const ConcurrentBitsetPtr& bitset_ptr) {
-        if (bitset_ptr) {
-            *this = BitsetView(*bitset_ptr);
-        }
-    }
-
     BitsetView(const std::nullptr_t nullptr_value): BitsetView() {
         assert(nullptr_value == nullptr);
     }
@@ -131,12 +126,11 @@ class BitsetView {
     }
 
     operator bool() const {
-        return !empty();
+        return num_bits_ > 0;
     }
 
     bool
     test(int64_t index) const {
-        // assert(index < size_);
         auto block_id = index >> 3;
         auto block_offset = index & 0x7;
         return (blocks_[block_id] >> block_offset) & 0x1;
