@@ -83,10 +83,10 @@ class BitsetView {
  public:
     BitsetView() = default;
 
-    BitsetView(const uint8_t* blocks, int64_t size) : blocks_(blocks), size_(size) {
+    BitsetView(const uint8_t* blocks, int64_t num_bits) : blocks_(blocks), num_bits_(num_bits) {
     }
 
-    explicit BitsetView(const ConcurrentBitset& bitset) : size_(bitset.count()) {
+    explicit BitsetView(const ConcurrentBitset& bitset) : num_bits_(bitset.count()) {
         // memcpy(block_data_.data(), bitset.data(), bitset.size());
         // blocks_ = block_data_.data();
         blocks_ = new uint8_t[bitset.size()];
@@ -105,19 +105,19 @@ class BitsetView {
 
     bool
     empty() const {
-        return size_ == 0;
+        return num_bits_ == 0;
     }
 
     // return count of all bits
     int64_t
     size() const {
-        return size_;
+        return num_bits_;
     }
 
     // return sizeof bitmap in bytes
     int64_t
     u8size() const {
-        return (size_ + 8 - 1) >> 3;
+        return (num_bits_ + 8 - 1) >> 3;
     }
 
     const uint8_t*
@@ -146,7 +146,7 @@ class BitsetView {
     count_1() const {
         uint64_t ret = 0;
         auto p_data = reinterpret_cast<const uint64_t *>(blocks_);
-        auto len = size_ >> 6;
+        auto len = num_bits_ >> 6;
         //auto remainder = size() % 8;
         auto popcount8 = [&](uint8_t x) -> int{
             x = (x & 0x55) + ((x >> 1) & 0x55);
@@ -168,7 +168,7 @@ class BitsetView {
 
  private:
     const uint8_t* blocks_ = nullptr;
-    int64_t size_ = 0;  // size of bits
+    int64_t num_bits_ = 0;
 };
 
 }  // namespace faiss
