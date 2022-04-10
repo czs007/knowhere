@@ -48,5 +48,5 @@ TEST(COMMON_TEST, BitsetView) {
     std::shared_ptr<uint8_t[]> data(new uint8_t[N]);
     memset(data.get(), 0x33, N);
     auto con_bitset = std::make_shared<faiss::BitsetView>(data.get(), N);
-    ASSERT_EQ(con_bitset->count_1(), N / 2);
+    ASSERT_EQ(con_bitset->count(), N / 2);
 }

@@ -143,7 +143,7 @@ class BitsetView {
     }
 
     uint64_t
-    count_1() const {
+    count() const {
         uint64_t ret = 0;
         auto p_data = reinterpret_cast<const uint64_t *>(blocks_);
         auto len = num_bits_ >> 6;
