@@ -116,8 +116,8 @@ class BitsetView {
 
     // return sizeof bitmap in bytes
     int64_t
-    u8size() const {
-        return (num_bits_ + 8 - 1) >> 3;
+    num_bytes() const {
+        return (num_bits_ + 8 - 1) / 8;
     }
 
     const uint8_t*
@@ -159,7 +159,7 @@ class BitsetView {
             p_data++;
         }
         auto p_byte = blocks_ + (len << 3);
-        for (auto i = (len << 3); i < u8size(); ++i) {
+        for (auto i = (len << 3); i < num_bytes(); ++i) {
             ret += popcount8(*p_byte);
             p_byte++;
         }
